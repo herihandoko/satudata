@@ -78,40 +78,77 @@
           <h2>2. {{ _('Akses via API') }}</h2>
         </header>
 
-        <p>{{ _('Untuk kebutuhan integrasi aplikasi pihak ketiga, kami menyediakan REST API yang memungkinkan pengambilan data secara otomatis dan real-time.') }}</p>
+        <p>{{ _('Satu Data Banten menyediakan REST API berbasis CKAN Action API. Seluruh dataset publik dapat diakses tanpa autentikasi. API Token hanya diperlukan untuk operasi tulis (membuat/mengubah dataset) atau membaca data privat.') }}</p>
 
+        <h4 class="docs-subhead mt-3">{{ _('Endpoint utama') }}</h4>
         <div class="docs-endpoint">
           <div class="docs-endpoint-head">
-            <span>ENDPOINT URL</span>
+            <span>BASE URL</span>
             <span class="docs-method">GET</span>
           </div>
-          <code class="docs-endpoint-url">https://satudata.bantendev.id/api/3/action/package_show?id={dataset_id}</code>
+          <code class="docs-endpoint-url">https://satudata.bantendev.id/api/3/action/{action}</code>
         </div>
 
-        <div class="row g-3 mt-1">
+        <div class="docs-endpoint-list mt-3">
+          <table class="table docs-endpoint-table">
+            <thead>
+              <tr><th>Action</th><th>{{ _('Deskripsi') }}</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>package_search</code></td><td>{{ _('Pencarian dataset (mendukung query, filter, paging).') }}</td></tr>
+              <tr><td><code>package_show</code></td><td>{{ _('Detail satu dataset berdasarkan id atau name.') }}</td></tr>
+              <tr><td><code>package_list</code></td><td>{{ _('Daftar nama dataset publik.') }}</td></tr>
+              <tr><td><code>organization_list</code></td><td>{{ _('Daftar OPD/instansi penyedia data.') }}</td></tr>
+              <tr><td><code>group_list</code></td><td>{{ _('Daftar kategori (group) data.') }}</td></tr>
+              <tr><td><code>tag_list</code></td><td>{{ _('Daftar seluruh tag/kata kunci.') }}</td></tr>
+              <tr><td><code>resource_show</code></td><td>{{ _('Metadata satu resource (file/CSV/dll) di dalam dataset.') }}</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 class="docs-subhead mt-4">{{ _('Contoh: pencarian dataset') }}</h4>
+        <div class="row g-3">
           <div class="col-md-6">
-            <label class="docs-code-label">{{ _('CONTOH REQUEST (CURL)') }}</label>
-<pre class="docs-code"><code>curl -X GET \
-  'https://satudata.bantendev.id/api/3/action/package_show?id=populasi-2023' \
-  -H 'Authorization: your_api_key_here'</code></pre>
+            <label class="docs-code-label">{{ _('REQUEST') }}</label>
+<pre class="docs-code"><code>curl 'https://satudata.bantendev.id/api/3/action/package_search?q=populasi&amp;rows=1'</code></pre>
           </div>
           <div class="col-md-6">
-            <label class="docs-code-label">{{ _('RESPONSE (JSON)') }}</label>
+            <label class="docs-code-label">{{ _('RESPONSE (cuplikan)') }}</label>
 <pre class="docs-code"><code>{
   "success": true,
   "result": {
-    "title": "Populasi Banten 2023",
-    "num_resources": 3,
-    "metadata_modified": "2024-01-10"
+    "count": 1810,
+    "results": [{
+      "title": "Dokumen Hasil Fasilitasi ...",
+      "name":  "dokumen-hasil-fasilitasi-...",
+      "organization": { "title": "Biro Organisasi & RB" },
+      "metadata_modified": "2026-04-17T03:41:28",
+      "resources": [ ... ]
+    }]
   }
 }</code></pre>
           </div>
         </div>
 
+        <h4 class="docs-subhead mt-4">{{ _('Contoh: detail dataset') }}</h4>
+<pre class="docs-code"><code>curl 'https://satudata.bantendev.id/api/3/action/package_show?id=&lt;dataset_name_atau_id&gt;'</code></pre>
+
+        <h4 class="docs-subhead mt-4">{{ _('Autentikasi (opsional)') }}</h4>
+        <p>{{ _('Kirim API Token via header HTTP berikut hanya jika Anda perlu mengakses data privat atau melakukan write action:') }}</p>
+<pre class="docs-code"><code>curl 'https://satudata.bantendev.id/api/3/action/package_show?id=...' \
+  -H 'Authorization: &lt;CKAN_API_TOKEN&gt;'</code></pre>
+
         <div class="docs-tip mt-3">
           <i class="fa fa-lightbulb me-2"></i>
           <strong>{{ _('Tip:') }}</strong>
-          {{ _('Anda dapat memperoleh API Key melalui dashboard Profil setelah melakukan registrasi akun pengembang secara gratis.') }}
+          {{ _('Login → klik nama Anda di kanan atas → tab "API Tokens" untuk membuat token baru. Token hanya ditampilkan satu kali, simpan dengan aman.') }}
+        </div>
+
+        <div class="docs-tip mt-2" style="background:#fff7ed; border-color:#fed7aa; color:#9a3412;">
+          <i class="fa fa-info-circle me-2"></i>
+          <strong>{{ _('Catatan:') }}</strong>
+          {{ _('Dokumentasi lengkap CKAN Action API tersedia di') }}
+          <a href="https://docs.ckan.org/en/2.11/api/" target="_blank" rel="noopener" style="color:#9a3412; text-decoration:underline;">docs.ckan.org/en/2.11/api</a>.
         </div>
       </section>
 
@@ -259,6 +296,28 @@
   /* List */
   .docs-list { padding-left:1.1rem; color:#4b5563; }
   .docs-list li { margin-bottom:8px; }
+
+  /* Sub-heading inside doc card */
+  .docs-subhead {
+    font-size:.95rem; font-weight:700; color:#111827;
+    margin: 4px 0 10px;
+    padding-bottom:6px;
+    border-bottom:1px dashed #e5e7eb;
+  }
+
+  /* Endpoint table */
+  .docs-endpoint-table {
+    font-size:.9rem;
+    margin: 0;
+  }
+  .docs-endpoint-table th {
+    font-size:.78rem; letter-spacing:.04em; color:#6b7280; font-weight:600;
+    background:#f9fafb;
+  }
+  .docs-endpoint-table td code {
+    background:#eef2ff; color:#3730a3;
+    padding:2px 6px; border-radius:4px; font-size:.85rem;
+  }
 </style>
 
 <script>
