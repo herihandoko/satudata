@@ -1,0 +1,53 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Metrix') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('Metrix'), named_route='metrix.index' %}</li>
+{% endblock %}
+
+{% block primary %}
+<article class="module">
+  <div class="module-content">
+    <header class="module-heading">
+      <h1>{{ _('Metrix') }}</h1>
+      <p class="text-muted">{{ _('Dashboard analitik Satu Data Banten') }}</p>
+    </header>
+
+    <div class="metrix-iframe-wrapper">
+      <iframe
+        src="{{ dashboard_url }}"
+        title="{{ _('Metrix Dashboard') }}"
+        loading="lazy"
+        allowfullscreen
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+  </div>
+</article>
+
+<style>
+  .metrix-iframe-wrapper {
+    position: relative;
+    width: 100%;
+    /* Tall enough to comfortably show a Metabase dashboard;
+       Metabase iframes don't auto-size so we use a fixed viewport-relative height. */
+    height: calc(100vh - 220px);
+    min-height: 720px;
+    border: 1px solid #e2e2e2;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fafafa;
+  }
+  .metrix-iframe-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+  .module-heading h1 { margin-bottom: 4px; }
+  .module-heading p { margin-bottom: 16px; }
+</style>
+{% endblock %}
+
+{% block secondary %}{% endblock %}

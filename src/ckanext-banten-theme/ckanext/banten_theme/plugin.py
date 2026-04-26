@@ -3,6 +3,8 @@ from datetime import datetime
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 
+from ckanext.banten_theme.views import metrix as metrix_blueprint
+
 
 def banten_current_year():
     """Return the current year as a string (e.g. '2026')."""
@@ -18,6 +20,7 @@ class BantenThemePlugin(plugins.SingletonPlugin):
 
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.ITemplateHelpers)
+    plugins.implements(plugins.IBlueprint)
 
     def update_config(self, config_):
         toolkit.add_template_directory(config_, 'templates')
@@ -27,3 +30,6 @@ class BantenThemePlugin(plugins.SingletonPlugin):
         return {
             'banten_current_year': banten_current_year,
         }
+
+    def get_blueprint(self):
+        return [metrix_blueprint]
