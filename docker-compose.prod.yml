@@ -14,8 +14,8 @@ services:
 
   ckan:
     build:
-      context: ckan/
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ckan/Dockerfile
       args:
         - TZ=${TZ:-Asia/Jakarta}
     image: satudata-ckan:latest
@@ -36,9 +36,8 @@ services:
     ports:
       - "127.0.0.1:${CKAN_PORT_HOST:-8080}:5000"
     volumes:
-      # Custom extensions (read-only) — di-pip-install otomatis oleh entrypoint hook
-      - ./src:/srv/app/src_extensions:ro
       # CKAN file storage (uploaded resources, etc) — bind mount untuk backup mudah
+      # Custom extensions sudah di-bake ke image (lihat ckan/Dockerfile), TIDAK di-mount.
       - ${DATA_DIR:-/var/lib/satudata-data}/ckan_storage:/var/lib/ckan
     restart: unless-stopped
     healthcheck:
