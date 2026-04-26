@@ -1,0 +1,285 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Dokumentasi') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('Dokumentasi'), named_route='dokumentasi.index' %}</li>
+{% endblock %}
+
+{% block content %}
+<div class="banten-docs container py-4">
+  <div class="row g-4">
+
+    {# === Sidebar / Table of Contents ============================== #}
+    <aside class="col-lg-3">
+      <nav class="docs-toc sticky-top" aria-label="{{ _('Daftar isi') }}">
+        <ul class="list-unstyled mb-0">
+          <li><a href="#pengenalan" class="active"><i class="fa fa-info-circle me-2"></i>{{ _('Pengenalan') }}</a></li>
+          <li><a href="#download"><i class="fa fa-download me-2"></i>{{ _('Cara Download Data') }}</a></li>
+          <li><a href="#api"><i class="fa fa-code me-2"></i>{{ _('Akses via API') }}</a></li>
+          <li><a href="#ketentuan"><i class="fa fa-balance-scale me-2"></i>{{ _('Ketentuan & Limitasi') }}</a></li>
+        </ul>
+      </nav>
+
+      <div class="docs-help-card mt-4">
+        <h5>{{ _('Butuh Bantuan?') }}</h5>
+        <p>{{ _('Tim teknis kami siap membantu integrasi data Anda.') }}</p>
+        <a href="mailto:diskominfo@bantenprov.go.id" class="btn btn-light w-100">{{ _('Hubungi Support') }}</a>
+      </div>
+    </aside>
+
+    {# === Main content ============================================ #}
+    <main class="col-lg-9">
+
+      {# --- Pengenalan / Hero ------------------------------------- #}
+      <section id="pengenalan" class="docs-section">
+        <h1 class="docs-title">{{ _('Mendapatkan Data Berkualitas untuk Banten') }}</h1>
+        <p class="docs-lead">
+          {{ _('Selamat datang di portal dokumentasi Satu Data Provinsi Banten. Kami menyediakan berbagai cara bagi masyarakat, peneliti, dan pengembang untuk mengakses data publik secara transparan.') }}
+        </p>
+      </section>
+
+      {# --- 1. Cara Download Data --------------------------------- #}
+      <section id="download" class="docs-section docs-card mt-4">
+        <header class="docs-card-header">
+          <span class="docs-icon docs-icon-blue"><i class="fa fa-download"></i></span>
+          <h2>1. {{ _('Cara Download Data') }}</h2>
+        </header>
+
+        <div class="docs-steps">
+          <div class="docs-step">
+            <span class="docs-step-num">01</span>
+            <div>
+              <h4>{{ _('Cari Dataset') }}</h4>
+              <p>{{ _('Gunakan fitur pencarian pada halaman utama untuk menemukan data spesifik seperti "Populasi" atau "Pendidikan".') }}</p>
+            </div>
+          </div>
+          <div class="docs-step">
+            <span class="docs-step-num">02</span>
+            <div>
+              <h4>{{ _('Pilih Format File') }}</h4>
+              <p>{{ _('Pada detail dataset, navigasikan ke tab "Unduh" dan pilih format yang diinginkan (CSV, XLSX, atau PDF).') }}</p>
+            </div>
+          </div>
+          <div class="docs-step">
+            <span class="docs-step-num">03</span>
+            <div>
+              <h4>{{ _('Konfirmasi Lisensi') }}</h4>
+              <p>{{ _('Pastikan Anda memahami lisensi penggunaan data (Open Data License) sebelum mengunduh.') }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {# --- 2. Akses via API ------------------------------------- #}
+      <section id="api" class="docs-section docs-card mt-4">
+        <header class="docs-card-header">
+          <span class="docs-icon docs-icon-green"><i class="fa fa-code"></i></span>
+          <h2>2. {{ _('Akses via API') }}</h2>
+        </header>
+
+        <p>{{ _('Untuk kebutuhan integrasi aplikasi pihak ketiga, kami menyediakan REST API yang memungkinkan pengambilan data secara otomatis dan real-time.') }}</p>
+
+        <div class="docs-endpoint">
+          <div class="docs-endpoint-head">
+            <span>ENDPOINT URL</span>
+            <span class="docs-method">GET</span>
+          </div>
+          <code class="docs-endpoint-url">https://satudata.bantendev.id/api/3/action/package_show?id={dataset_id}</code>
+        </div>
+
+        <div class="row g-3 mt-1">
+          <div class="col-md-6">
+            <label class="docs-code-label">{{ _('CONTOH REQUEST (CURL)') }}</label>
+<pre class="docs-code"><code>curl -X GET \
+  'https://satudata.bantendev.id/api/3/action/package_show?id=populasi-2023' \
+  -H 'Authorization: your_api_key_here'</code></pre>
+          </div>
+          <div class="col-md-6">
+            <label class="docs-code-label">{{ _('RESPONSE (JSON)') }}</label>
+<pre class="docs-code"><code>{
+  "success": true,
+  "result": {
+    "title": "Populasi Banten 2023",
+    "num_resources": 3,
+    "metadata_modified": "2024-01-10"
+  }
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="docs-tip mt-3">
+          <i class="fa fa-lightbulb me-2"></i>
+          <strong>{{ _('Tip:') }}</strong>
+          {{ _('Anda dapat memperoleh API Key melalui dashboard Profil setelah melakukan registrasi akun pengembang secara gratis.') }}
+        </div>
+      </section>
+
+      {# --- 3. Ketentuan & Limitasi ------------------------------ #}
+      <section id="ketentuan" class="docs-section docs-card mt-4">
+        <header class="docs-card-header">
+          <span class="docs-icon docs-icon-amber"><i class="fa fa-balance-scale"></i></span>
+          <h2>3. {{ _('Ketentuan & Limitasi') }}</h2>
+        </header>
+        <ul class="docs-list">
+          <li>{{ _('Lisensi default mengikuti Open Data License kecuali ditentukan lain pada masing-masing dataset.') }}</li>
+          <li>{{ _('Wajib mencantumkan atribusi "Sumber: Satu Data Provinsi Banten" pada setiap publikasi yang menggunakan data ini.') }}</li>
+          <li>{{ _('Rate limit API: 60 request per menit per API Key untuk menjaga kestabilan layanan.') }}</li>
+          <li>{{ _('Penyalahgunaan data atau API dapat mengakibatkan pencabutan akses tanpa pemberitahuan terlebih dahulu.') }}</li>
+        </ul>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+{# === Styles =================================================== #}
+<style>
+  .banten-docs { color:#1f2937; }
+
+  /* Sidebar TOC */
+  .docs-toc {
+    top: 90px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 12px 4px;
+  }
+  .docs-toc ul li a {
+    display: block;
+    padding: 9px 14px;
+    color: #4b5563;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.92rem;
+    transition: all .15s;
+  }
+  .docs-toc ul li a:hover { background:#f3f4f6; color:#0f8d44; }
+  .docs-toc ul li a.active { color:#0f8d44; font-weight:600; background:#eaf6ee; }
+
+  /* Help card (navy) */
+  .docs-help-card {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+    color:#fff;
+    border-radius: 10px;
+    padding: 18px;
+  }
+  .docs-help-card h5 { color:#fff; font-weight:700; margin-bottom: 6px; }
+  .docs-help-card p  { color:rgba(255,255,255,.85); font-size:.9rem; margin-bottom:14px; }
+  .docs-help-card .btn-light { font-weight:600; color:#1e3a8a; }
+
+  /* Sections */
+  .docs-section { scroll-margin-top: 90px; }
+  .docs-title { font-weight:800; font-size:2.1rem; line-height:1.2; margin-bottom:14px; }
+  .docs-lead  { color:#4b5563; font-size:1.02rem; max-width: 56ch; }
+
+  .docs-card {
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 26px 28px;
+  }
+  .docs-card-header { display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+  .docs-card-header h2 { font-size:1.45rem; font-weight:700; margin:0; }
+
+  .docs-icon {
+    width:42px; height:42px; border-radius:10px;
+    display:inline-flex; align-items:center; justify-content:center;
+    color:#fff; font-size:1.05rem;
+  }
+  .docs-icon-blue  { background:#1e40af; }
+  .docs-icon-green { background:#0f8d44; }
+  .docs-icon-amber { background:#d97706; }
+
+  /* Steps */
+  .docs-steps { display:flex; flex-direction:column; gap:18px; padding:6px 0 4px; }
+  .docs-step  { display:flex; gap:16px; align-items:flex-start; }
+  .docs-step-num {
+    flex:0 0 auto;
+    width:36px; height:36px;
+    background:#1e3a8a; color:#fff;
+    border-radius:50%;
+    display:inline-flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:.82rem;
+  }
+  .docs-step h4 { font-size:1rem; font-weight:700; margin:2px 0 4px; }
+  .docs-step p  { color:#4b5563; margin:0; font-size:.93rem; }
+
+  /* Endpoint URL */
+  .docs-endpoint {
+    background:#f9fafb;
+    border:1px solid #e5e7eb;
+    border-radius:8px;
+    padding:14px 16px;
+    margin-top: 14px;
+  }
+  .docs-endpoint-head {
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:.78rem; color:#6b7280; letter-spacing:.04em;
+    margin-bottom:8px;
+  }
+  .docs-method {
+    background:#dcfce7; color:#166534;
+    padding:2px 10px; border-radius:4px;
+    font-weight:700; font-size:.72rem;
+  }
+  .docs-endpoint-url {
+    color:#1d4ed8; font-size:.92rem; word-break:break-all;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    background:transparent;
+  }
+
+  /* Code blocks */
+  .docs-code-label {
+    font-size:.72rem; letter-spacing:.05em; color:#6b7280;
+    font-weight:600; margin-bottom:6px; display:block;
+  }
+  .docs-code {
+    background:#0f172a; color:#e2e8f0;
+    border-radius:8px;
+    padding:14px 16px;
+    font-size:.82rem;
+    line-height:1.55;
+    white-space: pre;
+    overflow-x:auto;
+    margin:0;
+  }
+  .docs-code code { color:inherit; background:transparent; padding:0; }
+
+  /* Tip */
+  .docs-tip {
+    background:#eff6ff;
+    border:1px solid #bfdbfe;
+    color:#1e3a8a;
+    border-radius:8px;
+    padding:12px 14px;
+    font-size:.92rem;
+  }
+
+  /* List */
+  .docs-list { padding-left:1.1rem; color:#4b5563; }
+  .docs-list li { margin-bottom:8px; }
+</style>
+
+<script>
+  // Highlight active TOC item on scroll using IntersectionObserver.
+  (function () {
+    const links = document.querySelectorAll('.docs-toc a[href^="#"]');
+    if (!links.length) return;
+    const map = {};
+    links.forEach(a => map[a.getAttribute('href').slice(1)] = a);
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          links.forEach(l => l.classList.remove('active'));
+          const a = map[e.target.id];
+          if (a) a.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+
+    document.querySelectorAll('.docs-section').forEach(s => observer.observe(s));
+  })();
+</script>
+{% endblock %}

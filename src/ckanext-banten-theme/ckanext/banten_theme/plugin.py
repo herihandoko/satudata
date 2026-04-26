@@ -3,7 +3,10 @@ from datetime import datetime
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 
-from ckanext.banten_theme.views import metrix as metrix_blueprint
+from ckanext.banten_theme.views import (
+    metrix as metrix_blueprint,
+    dokumentasi as dokumentasi_blueprint,
+)
 
 
 def banten_current_year():
@@ -32,4 +35,4 @@ class BantenThemePlugin(plugins.SingletonPlugin):
         }
 
     def get_blueprint(self):
-        return [metrix_blueprint]
+        return [metrix_blueprint, dokumentasi_blueprint]
