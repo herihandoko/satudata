@@ -11,9 +11,10 @@ COPY --chown=ckan-sys:ckan-sys ckan/patches ${APP_DIR}/patches
 # Build context must be repo root (see docker-compose.prod.yml).
 COPY --chown=ckan-sys:ckan-sys src ${APP_DIR}/src_extensions
 
-USER ckan
+# Apply patches & install local extensions as root (writable to system site-packages),
+# then switch to the non-root ckan user for runtime.
+USER root
 
-# Apply patches first
 RUN for d in $APP_DIR/patches/*; do \
         if [ -d $d ]; then \
             for f in `ls $d/*.patch | sort -g`; do \
@@ -22,10 +23,11 @@ RUN for d in $APP_DIR/patches/*; do \
         fi ; \
     done
 
-# Install local extensions
 RUN for ext in $APP_DIR/src_extensions/*/; do \
         if [ -f "$ext/setup.py" ] || [ -f "$ext/pyproject.toml" ]; then \
             echo "Installing $(basename $ext)..." && \
             pip install --no-cache-dir -e "$ext"; \
         fi ; \
     done
+
+USER ckan
