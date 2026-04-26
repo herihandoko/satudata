@@ -129,23 +129,24 @@ a:hover { color: var(--banten-primary-dark); text-decoration: underline; }
   border-radius: 1px;
 }
 
-/* Sub-title (small) — must be a separate line */
+/* Sub-title (small) — proportionally smaller than the title above
+   so the two-line block reads as a clear hierarchy. */
 .masthead .site-name small {
   display: block !important;
-  margin-top: 4px;
+  margin-top: 5px;
   font-family: 'Inter', var(--banten-font);
   font-weight: 500;
-  font-size: 11.5px;
-  letter-spacing: 0.08em;
+  font-size: 10px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.78);
+  color: rgba(255,255,255,0.72);
   white-space: nowrap;
 }
 
 /* Responsive — collapse subtitle on small screens */
 @media (max-width: 991.98px) {
   .masthead .site-name { font-size: 18px; padding-left: 12px; }
-  .masthead .site-name small { font-size: 10.5px; letter-spacing: 0.06em; }
+  .masthead .site-name small { font-size: 9px; letter-spacing: 0.12em; }
   .masthead .navbar-brand img { height: 48px; }
 }
 @media (max-width: 575.98px) {
