@@ -1,0 +1,5 @@
+main:
+  output: banten/%(version)s_main.css
+  filters: cssrewrite
+  contents:
+    - css/banten.css

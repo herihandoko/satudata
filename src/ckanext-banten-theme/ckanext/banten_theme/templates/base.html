@@ -2,7 +2,9 @@
 
 {% block head_extras -%}
   {{ super() }}
-  <link rel="stylesheet" href="{{ h.url_for_static('/banten/css/banten.css') }}" />
+  {# Banten theme CSS — served via webassets bundle so each build
+     gets a unique hashed URL (auto cache-busting in the browser). #}
+  {% asset 'banten_theme/main' %}
 
   {# Favicon set — generated from /favicon_io #}
   <link rel="shortcut icon" href="{{ h.url_for_static('/banten/favicon/favicon.ico') }}" />
