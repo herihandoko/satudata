@@ -1,0 +1,47 @@
+{% ckan_extends %}
+
+{% block footer_content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Tentang</h2>
+      <p style="font-size:14px; line-height:1.7;">
+        <strong>SATU DATA BANTEN</strong> adalah portal resmi data terbuka Pemerintah Provinsi Banten,
+        diselenggarakan untuk mewujudkan tata kelola data yang akurat, mutakhir, terpadu, dan
+        dapat dipertanggungjawabkan sesuai Perpres No. 39 Tahun 2019.
+      </p>
+    </div>
+    <div class="col-md-3">
+      <h2>Tautan</h2>
+      <ul class="list-unstyled" style="font-size:14px;">
+        <li><a href="{{ h.url_for('dataset.search') }}">Jelajah Dataset</a></li>
+        <li><a href="{{ h.url_for('organization.index') }}">Daftar OPD</a></li>
+        <li><a href="{{ h.url_for('group.index') }}">Topik / Grup</a></li>
+        <li><a href="https://docs.ckan.org/en/latest/api/" target="_blank" rel="noopener">Dokumentasi API</a></li>
+      </ul>
+    </div>
+    <div class="col-md-3">
+      <h2>Kontak</h2>
+      <ul class="list-unstyled" style="font-size:14px;">
+        <li>Diskominfo Provinsi Banten</li>
+        <li>KP3B, Curug, Kota Serang</li>
+        <li>Banten 42171</li>
+        <li><a href="mailto:[email protected]">[email protected]</a></li>
+      </ul>
+    </div>
+    <div class="col-md-2">
+      <h2>Ikuti</h2>
+      <ul class="list-unstyled" style="font-size:14px;">
+        <li><a href="#" target="_blank" rel="noopener"><i class="fa fa-twitter"></i>&nbsp; Twitter/X</a></li>
+        <li><a href="#" target="_blank" rel="noopener"><i class="fa fa-instagram"></i>&nbsp; Instagram</a></li>
+        <li><a href="#" target="_blank" rel="noopener"><i class="fa fa-youtube"></i>&nbsp; YouTube</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="attribution">
+    &copy; {{ h.banten_current_year() }} Pemerintah Provinsi Banten. Diselenggarakan oleh Dinas Komunikasi, Informatika,
+    Statistik dan Persandian. Dibangun dengan
+    <a href="https://ckan.org" target="_blank" rel="noopener" style="color:var(--banten-secondary);">CKAN</a>.
+  </div>
+</div>
+{% endblock %}

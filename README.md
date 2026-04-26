@@ -1,5 +1,70 @@
-# Docker Compose setup for CKAN
+# Satu Data Banten — CKAN Portal
 
+Portal Resmi Data Terbuka Pemerintah Provinsi Banten — built on CKAN 2.11.
+
+**Production:** https://satudata.bantendev.id
+
+## Quick Links
+
+- 🚀 **Production deployment**: lihat [deploy/README.md](deploy/README.md)
+- 🎨 **Custom theme**: `src/ckanext-banten-theme/`
+- 📦 **Stack**: CKAN + PostgreSQL + Solr + Redis + Datapusher (Docker Compose)
+
+## Quick Start (Development di lokal)
+
+```bash
+# Setup
+cp .env.example .env       # edit values
+docker compose -f docker-compose.dev.yml up -d --build
+
+# Akses
+open http://localhost:5001
+```
+
+## Quick Start (Production di VM)
+
+```bash
+# Di VM
+git clone https://github.com/herihandoko/satudata.git
+cd satudata
+cp .env.production.example .env    # edit secrets
+bash deploy/initial-setup.sh
+```
+
+Detail: [deploy/README.md](deploy/README.md).
+
+## Repo Structure
+
+```
+.
+├── ckan/                         # Custom CKAN Dockerfile + entrypoint hooks
+│   ├── Dockerfile                # Production (uwsgi multi-worker)
+│   ├── Dockerfile.dev            # Dev (Werkzeug, single thread)
+│   └── docker-entrypoint.d/      # Boot scripts (auto-install local extensions)
+├── nginx/                        # Optional in-docker nginx (dev SSL)
+├── postgresql/                   # Postgres + init scripts (create CKAN/datastore DB)
+├── src/                          # Custom CKAN extensions (mounted as :ro in prod)
+│   └── ckanext-banten-theme/     # Theme custom Provinsi Banten
+├── deploy/                       # Deployment scripts & docs
+│   ├── README.md                 # Full deployment guide
+│   ├── initial-setup.sh          # First-time deploy
+│   ├── update.sh                 # Pull + rebuild + restart
+│   ├── backup.sh                 # Daily backup (cron-friendly)
+│   ├── restore-data.sh           # Restore DB from dump
+│   ├── restore-storage.sh        # Restore file storage from tarball
+│   └── nginx-satudata.conf.example
+├── docker-compose.yml            # Original ckan-docker prod (stock)
+├── docker-compose.dev.yml        # Dev (untuk lokal dev)
+├── docker-compose.prod.yml       # Production (untuk VM, dengan bind mount)
+├── .env.example                  # Dev env template
+└── .env.production.example       # Prod env template
+```
+
+---
+
+# Upstream Documentation (ckan/ckan-docker)
+
+Repo ini adalah fork & customization dari [ckan/ckan-docker](https://github.com/ckan/ckan-docker). Dokumentasi upstream di bawah ini tetap berlaku sebagai referensi.
 
 - [Docker Compose setup for CKAN](#docker-compose-setup-for-ckan)
   - [1.  Overview](#1--overview)

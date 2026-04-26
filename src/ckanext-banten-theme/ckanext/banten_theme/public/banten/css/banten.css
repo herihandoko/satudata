@@ -1,0 +1,359 @@
+/* ============================================================
+   SATU DATA BANTEN — Gov-Formal CKAN Theme
+   Primary color: #0f8d44 (Banten green)
+   ============================================================ */
+
+:root {
+  --banten-primary: #0f8d44;
+  --banten-primary-dark: #0a6b33;
+  --banten-primary-light: #2eb464;
+  --banten-primary-50: #e8f5ee;
+  --banten-secondary: #f5b400;        /* aksen kuning emas */
+  --banten-dark: #0d2818;
+  --banten-text: #1a2e22;
+  --banten-muted: #5a6b62;
+  --banten-border: #d8e2dc;
+  --banten-bg: #f7faf8;
+  --banten-bg-card: #ffffff;
+  --banten-shadow: 0 1px 3px rgba(15, 141, 68, 0.06), 0 4px 12px rgba(15, 141, 68, 0.04);
+  --banten-radius: 8px;
+  --banten-font: 'Inter', 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+body {
+  font-family: var(--banten-font);
+  color: var(--banten-text);
+  background: var(--banten-bg);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, .module-heading {
+  font-family: 'Plus Jakarta Sans', var(--banten-font);
+  color: var(--banten-dark);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+a { color: var(--banten-primary); text-decoration: none; }
+a:hover { color: var(--banten-primary-dark); text-decoration: underline; }
+
+/* ============================================================
+   TOP STRIP — gov-formal identity bar
+   ============================================================ */
+.banten-topstrip {
+  background: var(--banten-primary-dark);
+  color: #fff;
+  font-size: 12.5px;
+  padding: 6px 0;
+  letter-spacing: 0.01em;
+}
+.banten-topstrip .container { display: flex; justify-content: space-between; align-items: center; }
+.banten-topstrip a { color: #fff; opacity: .85; margin-left: 16px; }
+.banten-topstrip a:hover { opacity: 1; text-decoration: none; }
+
+/* ============================================================
+   MAIN HEADER / NAVBAR
+   ============================================================ */
+.account-masthead {
+  background: var(--banten-primary-dark) !important;
+}
+.account-masthead .account ul li a {
+  color: rgba(255,255,255,0.92) !important;
+}
+.account-masthead .account ul li a:hover {
+  background: rgba(255,255,255,0.08) !important;
+  color: #fff !important;
+}
+
+.masthead {
+  background: linear-gradient(135deg, var(--banten-primary) 0%, var(--banten-primary-dark) 100%) !important;
+  border-bottom: 3px solid var(--banten-secondary);
+  padding: 18px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.masthead .navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0;
+}
+.masthead .navbar-brand img,
+.masthead .logo img {
+  height: 56px;
+  width: auto;
+  background: #fff;
+  border-radius: 8px;
+  padding: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+.masthead .site-name {
+  color: #fff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+.masthead .site-name small {
+  display: block;
+  font-weight: 500;
+  font-size: 12px;
+  opacity: 0.85;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.masthead .navbar-nav .nav-item .nav-link,
+.masthead .nav-pills li a {
+  color: #fff !important;
+  font-weight: 500;
+  padding: 8px 14px !important;
+  border-radius: 6px;
+  transition: all .2s ease;
+}
+.masthead .navbar-nav .nav-item.active .nav-link,
+.masthead .nav-pills li.active a,
+.masthead .navbar-nav .nav-item .nav-link:hover {
+  background: rgba(255,255,255,0.15) !important;
+  color: #fff !important;
+}
+
+/* Search box di navbar */
+.masthead .header-search input,
+.masthead form input.search {
+  border-radius: 999px;
+  padding: 8px 16px;
+  border: none;
+  min-width: 280px;
+}
+
+/* ============================================================
+   HERO / HOMEPAGE BANNER
+   ============================================================ */
+.banten-hero {
+  background:
+    linear-gradient(135deg, rgba(15,141,68,0.92) 0%, rgba(10,107,51,0.88) 100%),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><path d="M30 0L60 30L30 60L0 30Z" fill="rgba(255,255,255,0.04)"/></svg>');
+  background-size: cover, 60px 60px;
+  color: #fff;
+  padding: 72px 0 64px;
+  text-align: center;
+  border-bottom: 4px solid var(--banten-secondary);
+}
+.banten-hero h1 {
+  color: #fff;
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+.banten-hero p.lead {
+  color: rgba(255,255,255,0.92);
+  font-size: 18px;
+  max-width: 680px;
+  margin: 0 auto 32px;
+}
+.banten-hero .search-form {
+  max-width: 640px;
+  margin: 0 auto;
+}
+.banten-hero .search-form input.search {
+  border: none;
+  border-radius: 999px;
+  padding: 14px 24px;
+  font-size: 16px;
+  width: 100%;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+.banten-hero .search-form button {
+  background: var(--banten-secondary);
+  color: var(--banten-dark);
+  border: none;
+  border-radius: 999px;
+  padding: 12px 28px;
+  font-weight: 700;
+  margin-top: 14px;
+  cursor: pointer;
+  transition: transform .15s ease;
+}
+.banten-hero .search-form button:hover { transform: translateY(-1px); }
+
+/* ============================================================
+   STATS COUNTER
+   ============================================================ */
+.banten-stats {
+  background: #fff;
+  border-bottom: 1px solid var(--banten-border);
+  padding: 32px 0;
+}
+.banten-stats .stat-item {
+  text-align: center;
+  padding: 12px;
+}
+.banten-stats .stat-item .number {
+  font-family: 'Plus Jakarta Sans';
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--banten-primary);
+  line-height: 1;
+}
+.banten-stats .stat-item .label {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--banten-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+/* ============================================================
+   CARDS — datasets, organizations, groups
+   ============================================================ */
+.module, .package-list .dataset-item, .media-grid .media-item {
+  background: var(--banten-bg-card);
+  border: 1px solid var(--banten-border);
+  border-radius: var(--banten-radius);
+  box-shadow: var(--banten-shadow);
+  transition: all .2s ease;
+}
+.module:hover, .package-list .dataset-item:hover, .media-grid .media-item:hover {
+  border-color: var(--banten-primary-light);
+  box-shadow: 0 4px 16px rgba(15, 141, 68, 0.10);
+  transform: translateY(-2px);
+}
+
+.dataset-item .dataset-heading a {
+  color: var(--banten-dark);
+  font-weight: 700;
+}
+.dataset-item .dataset-heading a:hover {
+  color: var(--banten-primary);
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn-primary,
+.btn-primary:focus {
+  background: var(--banten-primary) !important;
+  border-color: var(--banten-primary) !important;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 8px 18px;
+}
+.btn-primary:hover,
+.btn-primary:active {
+  background: var(--banten-primary-dark) !important;
+  border-color: var(--banten-primary-dark) !important;
+}
+
+.btn-default, .btn-secondary {
+  background: #fff !important;
+  border: 1px solid var(--banten-border) !important;
+  color: var(--banten-text) !important;
+  font-weight: 500;
+}
+.btn-default:hover, .btn-secondary:hover {
+  border-color: var(--banten-primary) !important;
+  color: var(--banten-primary) !important;
+}
+
+/* ============================================================
+   TAGS / BADGES
+   ============================================================ */
+.tag, .label, .badge.bg-primary, .badge-primary {
+  background: var(--banten-primary-50) !important;
+  color: var(--banten-primary-dark) !important;
+  border: 1px solid rgba(15, 141, 68, 0.15);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.tag:hover, .label:hover {
+  background: var(--banten-primary) !important;
+  color: #fff !important;
+  text-decoration: none;
+}
+
+/* ============================================================
+   PAGINATION & LINKS
+   ============================================================ */
+.pagination > li > a, .pagination > li > span {
+  color: var(--banten-primary);
+  border-color: var(--banten-border);
+}
+.pagination > .active > a,
+.pagination > .active > a:hover {
+  background: var(--banten-primary);
+  border-color: var(--banten-primary);
+  color: #fff;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer,
+footer.site-footer {
+  background: var(--banten-dark) !important;
+  color: rgba(255,255,255,0.78);
+  padding: 48px 0 24px;
+  border-top: 4px solid var(--banten-primary);
+}
+.site-footer h2, .site-footer h3 {
+  color: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.site-footer a { color: rgba(255,255,255,0.85); }
+.site-footer a:hover { color: var(--banten-secondary); }
+.site-footer .attribution {
+  border-top: 1px solid rgba(255,255,255,0.10);
+  padding-top: 16px;
+  margin-top: 24px;
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.55);
+}
+
+/* ============================================================
+   FORMS & INPUTS
+   ============================================================ */
+.form-control,
+input[type="text"], input[type="email"], input[type="password"], input[type="search"],
+textarea, select {
+  border-radius: 6px;
+  border: 1px solid var(--banten-border);
+  padding: 8px 12px;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.form-control:focus,
+input:focus, textarea:focus, select:focus {
+  border-color: var(--banten-primary) !important;
+  box-shadow: 0 0 0 3px rgba(15, 141, 68, 0.12) !important;
+  outline: none;
+}
+
+/* ============================================================
+   ALERTS
+   ============================================================ */
+.alert-success, .alert.alert-success {
+  background: var(--banten-primary-50);
+  border-color: rgba(15, 141, 68, 0.25);
+  color: var(--banten-primary-dark);
+}
+
+/* ============================================================
+   SCROLLBAR (subtle)
+   ============================================================ */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--banten-bg); }
+::-webkit-scrollbar-thumb { background: var(--banten-border); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: var(--banten-primary-light); }

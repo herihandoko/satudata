@@ -1,0 +1,7 @@
+{% ckan_extends %}
+
+{% block head_extras -%}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ h.url_for_static('/banten/css/banten.css') }}" />
+  <link rel="icon" type="image/png" href="{{ h.url_for_static('/banten/images/logo.png') }}" />
+{%- endblock %}

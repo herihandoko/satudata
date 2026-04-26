@@ -1,0 +1,114 @@
+{% ckan_extends %}
+
+{% block primary_content %}
+<div role="main">
+
+  {# ============= HERO ============= #}
+  <section class="banten-hero">
+    <div class="container">
+      <h1>Satu Data Provinsi Banten</h1>
+      <p class="lead">
+        Akses dan unduh data resmi pemerintah Provinsi Banten — terbuka, terstandar, dan dapat dipertanggungjawabkan.
+      </p>
+      <form class="search-form" action="{{ h.url_for('dataset.search') }}" method="get">
+        <input type="text"
+               name="q"
+               class="search"
+               placeholder="Cari dataset, organisasi, atau topik…"
+               aria-label="{{ _('Search') }}" />
+        <div style="text-align:center;">
+          <button type="submit">
+            <i class="fa fa-search" aria-hidden="true"></i>&nbsp; Cari Data
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  {# ============= STATS COUNTER ============= #}
+  <section class="banten-stats">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 col-sm-6">
+          <div class="stat-item">
+            <div class="number">{{ h.get_site_statistics().dataset_count or 0 }}</div>
+            <div class="label">Dataset</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="stat-item">
+            <div class="number">{{ h.get_site_statistics().group_count or 0 }}</div>
+            <div class="label">Topik / Grup</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="stat-item">
+            <div class="number">{{ h.get_site_statistics().organization_count or 0 }}</div>
+            <div class="label">OPD / Organisasi</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="stat-item">
+            <div class="number">8</div>
+            <div class="label">Kab/Kota</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ============= FEATURED ============= #}
+  <div class="main module-feeds" style="padding: 40px 0;">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          {% block featured_group %}
+            {% snippet 'home/snippets/featured_group.html' %}
+          {% endblock %}
+        </div>
+        <div class="col-md-6">
+          {% block featured_organization %}
+            {% snippet 'home/snippets/featured_organization.html' %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ============= CTA / INFO ============= #}
+  <section style="background:#fff; padding:48px 0; border-top:1px solid var(--banten-border);">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h3 style="font-size:18px;">
+            <i class="fa fa-database" style="color:var(--banten-primary); margin-right:8px;"></i>
+            Data Terstandar
+          </h3>
+          <p style="color:var(--banten-muted);">
+            Semua dataset mengikuti standar SDI dan format terbuka (CSV, JSON, XLSX) sesuai amanat Perpres No.39/2019.
+          </p>
+        </div>
+        <div class="col-md-4">
+          <h3 style="font-size:18px;">
+            <i class="fa fa-shield" style="color:var(--banten-primary); margin-right:8px;"></i>
+            Terverifikasi OPD
+          </h3>
+          <p style="color:var(--banten-muted);">
+            Data dipublikasikan langsung oleh produsen data resmi di Pemerintah Provinsi Banten dan kabupaten/kota.
+          </p>
+        </div>
+        <div class="col-md-4">
+          <h3 style="font-size:18px;">
+            <i class="fa fa-code" style="color:var(--banten-primary); margin-right:8px;"></i>
+            API Terbuka
+          </h3>
+          <p style="color:var(--banten-muted);">
+            Akses data via REST API standar CKAN untuk integrasi aplikasi pihak ketiga, riset, dan jurnalisme data.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}

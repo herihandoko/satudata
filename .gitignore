@@ -1,10 +1,65 @@
-# generic
+# macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment files (contain secrets!)
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Vagrant
 .vagrant
 
-# code & config
+# CKAN data — NEVER commit data
+migration/
+vm-backup/
+data/
+*.dump
+*.tar.gz
+*.sql.gz
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Logs
+*.log
+logs/
+
+# CKAN runtime artifacts
+ckan_storage/
+solr_data/
+pg_data/
+pip_cache/
+
+# CKAN dev placeholders
+local/*
 _service-provider/*
 _solr/schema.xml
 _src/*
-local/*
-.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.eggs/
+
+# Node (if any frontend)
+node_modules/
+npm-debug.log*
+
+# Temporary files
+tmp/
+temp/

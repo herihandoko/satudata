@@ -1,0 +1,11 @@
+{% ckan_extends %}
+
+{% block header_logo %}
+  <a class="logo navbar-brand" href="{{ h.url_for('home.index') }}" aria-label="{{ g.site_title }}">
+    <img src="{{ h.url_for_static('/banten/images/logo.png') }}" alt="Logo Pemprov Banten" />
+    <span class="site-name">
+      SATU DATA BANTEN
+      <small>Portal Resmi Data Terbuka Pemerintah Provinsi Banten</small>
+    </span>
+  </a>
+{% endblock %}

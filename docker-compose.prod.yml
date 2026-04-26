@@ -1,0 +1,141 @@
+# Production compose file for satudata.bantendev.id
+# Deploy on VM with: docker compose -f docker-compose.prod.yml up -d
+#
+# Data persistence: bind mounts to ${DATA_DIR} (default /var/lib/satudata-data)
+#   so data survives `git pull` and `docker compose down`.
+# Source code update: edit files / git pull, then:
+#   docker compose -f docker-compose.prod.yml build ckan
+#   docker compose -f docker-compose.prod.yml up -d
+#
+# CKAN itu di-expose hanya di 127.0.0.1:${CKAN_PORT_HOST} supaya HOST nginx
+# (yang sudah punya SSL certs) bisa proxy_pass ke sini.
+
+services:
+
+  ckan:
+    build:
+      context: ckan/
+      dockerfile: Dockerfile
+      args:
+        - TZ=${TZ:-Asia/Jakarta}
+    image: satudata-ckan:latest
+    networks:
+      - ckannet
+      - dbnet
+      - solrnet
+      - redisnet
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      solr:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${CKAN_PORT_HOST:-8080}:5000"
+    volumes:
+      # Custom extensions (read-only) — di-pip-install otomatis oleh entrypoint hook
+      - ./src:/srv/app/src_extensions:ro
+      # CKAN file storage (uploaded resources, etc) — bind mount untuk backup mudah
+      - ${DATA_DIR:-/var/lib/satudata-data}/ckan_storage:/var/lib/ckan
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:5000/api/action/status_show"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  datapusher:
+    image: ckan/ckan-base-datapusher:${DATAPUSHER_VERSION:-0.0.21}
+    networks:
+      - ckannet
+      - dbnet
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:8800"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
+
+  db:
+    build:
+      context: postgresql/
+    image: satudata-db:latest
+    networks:
+      - dbnet
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - CKAN_DB_USER
+      - CKAN_DB_PASSWORD
+      - CKAN_DB
+      - DATASTORE_READONLY_USER
+      - DATASTORE_READONLY_PASSWORD
+      - DATASTORE_DB
+    volumes:
+      - ${DATA_DIR:-/var/lib/satudata-data}/postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  solr:
+    image: ckan/ckan-solr:${SOLR_IMAGE_VERSION:-2.11-solr9}
+    networks:
+      - solrnet
+    volumes:
+      - ${DATA_DIR:-/var/lib/satudata-data}/solr:/var/solr
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:8983/solr/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
+
+  redis:
+    image: redis:${REDIS_VERSION:-6}
+    networks:
+      - redisnet
+    volumes:
+      - ${DATA_DIR:-/var/lib/satudata-data}/redis:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "-e", "QUIT"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+networks:
+  ckannet:
+  solrnet:
+    internal: true
+  dbnet:
+    internal: true
+  redisnet:
+    internal: true
