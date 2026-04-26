@@ -15,6 +15,13 @@ COPY --chown=ckan-sys:ckan-sys src ${APP_DIR}/src_extensions
 # then switch to the non-root ckan user for runtime.
 USER root
 
+# Trust additional CA certs (e.g. SMTP relay providers that don't send full chain).
+# Drop-in any *.crt files into ckan/certs/ in the repo and they'll be trusted.
+COPY ckan/certs/*.crt /usr/local/share/ca-certificates/
+RUN if ls /usr/local/share/ca-certificates/*.crt >/dev/null 2>&1; then \
+        update-ca-certificates ; \
+    fi
+
 RUN for d in $APP_DIR/patches/*; do \
         if [ -d $d ]; then \
             for f in `ls $d/*.patch | sort -g`; do \
