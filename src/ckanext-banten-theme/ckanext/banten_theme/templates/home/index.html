@@ -1,110 +1,306 @@
 {% ckan_extends %}
 
+{# ==========================================================================
+   Satu Data Banten — Custom modern homepage
+   Sections (top → bottom):
+     1. Hero (dark navy + teal accent + orange CTA)
+     2. Stats counter (overlapping cards)
+     3. Dataset Terbaru (latest datasets, 2-col grid)
+     4. Kenapa Satu Data Banten? (3 feature cards)
+     5. Metrix Dashboard preview (chart preview + KPI tiles)
+     6. Mendapatkan Data Berkualitas (2x2 doc cards)
+   ========================================================================== #}
+
+{% set stats = h.get_site_statistics() %}
+{% set recent_pkgs = h.banten_recent_datasets(4) %}
+
+{# Mark <body> so we can target home-only styles (hide navbar search, etc.). #}
+{% block bodytag %} data-site-root="{{ h.url_for('home.index', locale='default', qualified=true) }}" data-locale-root="{{ h.url_for('home.index', qualified=true) }}" class="home"{% endblock %}
+
 {% block primary_content %}
 <div role="main">
 
-  {# ============= HERO ============= #}
+  {# ============================================================
+     1. HERO
+     ============================================================ #}
   <section class="banten-hero">
     <div class="container">
-      <h1>Satu Data Provinsi Banten</h1>
+      <span class="hero-badge">Portal Data Terbuka Resmi</span>
+      <h1>
+        Satu Data <span class="accent">Provinsi Banten</span>
+      </h1>
       <p class="lead">
-        Akses dan unduh data resmi pemerintah Provinsi Banten — terbuka, terstandar, dan dapat dipertanggungjawabkan.
+        Akses dan unduh data resmi Pemerintah Provinsi Banten — terbuka,
+        terstandar, dan dapat dipertanggungjawabkan.
       </p>
-      <form class="search-form" action="{{ h.url_for('dataset.search') }}" method="get">
-        <input type="text"
-               name="q"
-               class="search"
-               placeholder="Cari dataset, organisasi, atau topik…"
-               aria-label="{{ _('Search') }}" />
-        <div style="text-align:center;">
-          <button type="submit">
-            <i class="fa fa-search" aria-hidden="true"></i>&nbsp; Cari Data
-          </button>
+      <form class="search-form" action="{{ h.url_for('dataset.search') }}" method="get" role="search">
+        <div class="search-input-wrap">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <input type="text"
+                 name="q"
+                 class="search"
+                 placeholder="Bidang, organisasi, atau topik…"
+                 aria-label="{{ _('Search datasets') }}" />
         </div>
+        <button type="submit">Cari Data</button>
       </form>
     </div>
   </section>
 
-  {# ============= STATS COUNTER ============= #}
+  {# ============================================================
+     2. STATS — overlapping cards on top of hero/section divider
+     ============================================================ #}
   <section class="banten-stats">
     <div class="container">
-      <div class="row">
-        <div class="col-md-3 col-sm-6">
-          <div class="stat-item">
-            <div class="number">{{ h.get_site_statistics().dataset_count or 0 }}</div>
-            <div class="label">Dataset</div>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="number">{{ stats.dataset_count or 0 }}</div>
+          <div class="label">Dataset</div>
+        </div>
+        <div class="stat-item">
+          <div class="number">{{ stats.group_count or 0 }}</div>
+          <div class="label">Topik / Grup</div>
+        </div>
+        <div class="stat-item">
+          <div class="number">{{ stats.organization_count or 0 }}</div>
+          <div class="label">OPD / Organisasi</div>
+        </div>
+        <div class="stat-item">
+          <div class="number">8</div>
+          <div class="label">Kab / Kota</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ============================================================
+     3. DATASET TERBARU
+     ============================================================ #}
+  <section class="section section-soft">
+    <div class="container">
+      <span class="section-eyebrow">Dataset Terbaru</span>
+      <h2 class="section-title">Jelajahi Data Banten</h2>
+      <p class="section-subtitle">
+        Dataset terbaru yang baru saja diperbarui di portal Provinsi Banten.
+      </p>
+
+      <div class="row g-3">
+        {% if recent_pkgs %}
+          {% for pkg in recent_pkgs %}
+            <div class="col-md-6">
+              <a href="{{ h.url_for('dataset.read', id=pkg.name) }}" class="dataset-card">
+                {% if pkg.organization %}
+                  <span class="dataset-card-org">
+                    <i class="fa fa-building" aria-hidden="true"></i>
+                    {{ pkg.organization.title or pkg.organization.name }}
+                  </span>
+                {% endif %}
+                <h3>{{ pkg.title or pkg.name }}</h3>
+                {% if pkg.notes %}
+                  <p style="color: var(--banten-muted); font-size: 13.5px; margin: 0; line-height: 1.55;">
+                    {{ h.markdown_extract(pkg.notes, extract_length=140) }}
+                  </p>
+                {% endif %}
+                <div class="dataset-card-meta">
+                  {% set seen_fmts = [] %}
+                  {% for r in pkg.resources %}
+                    {% set fmt = (r.format or '').lower() %}
+                    {% if fmt and fmt not in seen_fmts %}
+                      {% set _ = seen_fmts.append(fmt) %}
+                      <span class="fmt {{ fmt }}">{{ r.format }}</span>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="col-12">
+            <p class="text-muted">Belum ada dataset terbaru.</p>
+          </div>
+        {% endif %}
+      </div>
+
+      <div style="text-align:center; margin-top: 32px;">
+        <a href="{{ h.url_for('dataset.search') }}" class="btn btn-primary">
+          Lihat semua dataset <i class="fa fa-arrow-right" style="margin-left:6px;"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {# ============================================================
+     4. FITUR — Kenapa Satu Data Banten?
+     ============================================================ #}
+  <section class="section section-white">
+    <div class="container">
+      <span class="section-eyebrow">Keunggulan</span>
+      <h2 class="section-title">Kenapa Satu Data Banten?</h2>
+      <p class="section-subtitle">
+        Kami menjaga data tetap rapi, terstruktur, dan dapat dipercaya.
+      </p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa fa-database" aria-hidden="true"></i></div>
+          <h3>Data Terstruktur</h3>
+          <p>
+            Seluruh dataset mengikuti standar SDI dan format terbuka
+            (CSV, JSON, XLSX) sesuai amanat Perpres No. 39/2019.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa fa-shield-halved" aria-hidden="true"></i></div>
+          <h3>Verifikasi OPD</h3>
+          <p>
+            Tiap dataset bisa dipantau jejak datanya, dari OPD penyedia di
+            Provinsi Banten hingga riwayat pembaruannya.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa fa-code" aria-hidden="true"></i></div>
+          <h3>API Terbuka</h3>
+          <p>
+            CKAN menyediakan REST API standar untuk integrasi aplikasi
+            pihak ketiga, riset, dan jurnalisme data.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ============================================================
+     5. METRIX DASHBOARD PREVIEW
+     ============================================================ #}
+  <section class="section section-soft">
+    <div class="container">
+      <span class="section-eyebrow">Analitik</span>
+      <h2 class="section-title">Metrix Dashboard</h2>
+      <p class="section-subtitle">
+        Tren publikasi dataset Satu Data Banten 2021 – 2026.
+      </p>
+
+      <div class="metrix-preview">
+        <div class="metrix-chart">
+          <h4>Dataset Masuk per Bulan</h4>
+          <div class="chart-bars">
+            <div class="bar" style="height: 35%;"></div>
+            <div class="bar" style="height: 48%;"></div>
+            <div class="bar" style="height: 30%;"></div>
+            <div class="bar" style="height: 62%;"></div>
+            <div class="bar" style="height: 55%;"></div>
+            <div class="bar" style="height: 78%;"></div>
+            <div class="bar" style="height: 70%;"></div>
+            <div class="bar" style="height: 85%;"></div>
+            <div class="bar" style="height: 92%;"></div>
+            <div class="bar" style="height: 76%;"></div>
+            <div class="bar" style="height: 88%;"></div>
+            <div class="bar" style="height: 95%;"></div>
+          </div>
+          <div class="chart-labels">
+            <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span>
+            <span>Mei</span><span>Jun</span><span>Jul</span><span>Agu</span>
+            <span>Sep</span><span>Okt</span><span>Nov</span><span>Des</span>
+          </div>
+
+          <h4 style="margin-top: 28px;">Total per Kategori</h4>
+          <div class="chart-bars-h">
+            <div class="row-h"><span>Kependudukan</span><span class="barh"><span style="width: 92%;"></span></span><span class="val">148</span></div>
+            <div class="row-h"><span>Transportasi</span><span class="barh"><span style="width: 80%;"></span></span><span class="val">128</span></div>
+            <div class="row-h"><span>Sosial</span><span class="barh"><span style="width: 70%;"></span></span><span class="val">112</span></div>
+            <div class="row-h"><span>Ekonomi</span><span class="barh"><span style="width: 62%;"></span></span><span class="val">98</span></div>
+            <div class="row-h"><span>Pendidikan</span><span class="barh"><span style="width: 50%;"></span></span><span class="val">81</span></div>
           </div>
         </div>
-        <div class="col-md-3 col-sm-6">
-          <div class="stat-item">
-            <div class="number">{{ h.get_site_statistics().group_count or 0 }}</div>
-            <div class="label">Topik / Grup</div>
+
+        <div class="kpi-stack">
+          <div class="kpi-card">
+            <div class="kpi-value">{{ stats.dataset_count or 0 }}</div>
+            <div class="kpi-label">Total Dataset</div>
           </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-          <div class="stat-item">
-            <div class="number">{{ h.get_site_statistics().organization_count or 0 }}</div>
-            <div class="label">OPD / Organisasi</div>
+          <div class="kpi-card kpi-alt">
+            <div class="kpi-value">{{ stats.group_count or 0 }}</div>
+            <div class="kpi-label">Kategori Data</div>
           </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-          <div class="stat-item">
-            <div class="number">8</div>
-            <div class="label">Kab/Kota</div>
+          <div style="text-align: right;">
+            <a href="{{ h.url_for('metrix.index') }}" class="btn btn-primary">
+              Lihat Dashboard Lengkap <i class="fa fa-arrow-right" style="margin-left:6px;"></i>
+            </a>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  {# ============= FEATURED ============= #}
-  <div class="main module-feeds" style="padding: 40px 0;">
+  {# ============================================================
+     6. MENDAPATKAN DATA BERKUALITAS — doc cards 2x2
+     ============================================================ #}
+  <section class="section section-white">
     <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-          {% block featured_group %}
-            {% snippet 'home/snippets/featured_group.html' %}
-          {% endblock %}
-        </div>
-        <div class="col-md-6">
-          {% block featured_organization %}
-            {% snippet 'home/snippets/featured_organization.html' %}
-          {% endblock %}
-        </div>
-      </div>
-    </div>
-  </div>
+      <span class="section-eyebrow">Berlangganan</span>
+      <h2 class="section-title">Mendapatkan Data Berkualitas</h2>
+      <p class="section-subtitle">
+        Panduan singkat dan dukungan untuk mempermudah akses data Provinsi Banten.
+      </p>
 
-  {# ============= CTA / INFO ============= #}
-  <section style="background:#fff; padding:48px 0; border-top:1px solid var(--banten-border);">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <h3 style="font-size:18px;">
-            <i class="fa fa-database" style="color:var(--banten-primary); margin-right:8px;"></i>
-            Data Terstandar
-          </h3>
-          <p style="color:var(--banten-muted);">
-            Semua dataset mengikuti standar SDI dan format terbuka (CSV, JSON, XLSX) sesuai amanat Perpres No.39/2019.
+      <div class="docs-grid">
+        <div class="doc-card">
+          <div class="doc-icon"><i class="fa fa-cloud-arrow-down" aria-hidden="true"></i></div>
+          <h3>Cara Download Data</h3>
+          <p>
+            Cari dataset, klik resource, lalu unduh dalam format CSV / XLSX / JSON
+            sesuai kebutuhan analisis Anda.
           </p>
+          <div class="doc-cta">
+            <a href="{{ h.url_for('dataset.search') }}" style="color: var(--banten-teal-2); font-weight: 600; text-decoration: none;">
+              Cari dataset <i class="fa fa-arrow-right" style="margin-left:4px;"></i>
+            </a>
+          </div>
         </div>
-        <div class="col-md-4">
-          <h3 style="font-size:18px;">
-            <i class="fa fa-shield" style="color:var(--banten-primary); margin-right:8px;"></i>
-            Terverifikasi OPD
-          </h3>
-          <p style="color:var(--banten-muted);">
-            Data dipublikasikan langsung oleh produsen data resmi di Pemerintah Provinsi Banten dan kabupaten/kota.
+
+        <div class="doc-card">
+          <div class="doc-icon"><i class="fa fa-code" aria-hidden="true"></i></div>
+          <h3>Akses via API</h3>
+          <p>
+            REST API mengikuti CKAN Action API. Semua resource publik dapat
+            diakses tanpa otentikasi.
           </p>
+<pre><span class="tok-cmd">curl</span> <span class="tok-flag">--compressed</span> \
+  https://satudata.bantendev.id/api/3/action/package_list</pre>
+          <div class="doc-cta">
+            <a href="{{ h.url_for('dokumentasi.index') }}" style="color: var(--banten-teal-2); font-weight: 600; text-decoration: none;">
+              Baca dokumentasi <i class="fa fa-arrow-right" style="margin-left:4px;"></i>
+            </a>
+          </div>
         </div>
-        <div class="col-md-4">
-          <h3 style="font-size:18px;">
-            <i class="fa fa-code" style="color:var(--banten-primary); margin-right:8px;"></i>
-            API Terbuka
-          </h3>
-          <p style="color:var(--banten-muted);">
-            Akses data via REST API standar CKAN untuk integrasi aplikasi pihak ketiga, riset, dan jurnalisme data.
+
+        <div class="doc-card">
+          <div class="doc-icon"><i class="fa fa-file-lines" aria-hidden="true"></i></div>
+          <h3>Ketentuan & Lisensi</h3>
+          <p>
+            Sebagian besar dataset menggunakan lisensi Creative Commons "Sebar
+            Sesuai Sumber" untuk pemanfaatan terbuka.
           </p>
+          <div class="doc-cta">
+            <a href="{{ h.url_for('home.about') }}" style="color: var(--banten-teal-2); font-weight: 600; text-decoration: none;">
+              Pelajari ketentuan <i class="fa fa-arrow-right" style="margin-left:4px;"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="doc-card doc-card-warm">
+          <div class="doc-icon"><i class="fa fa-circle-question" aria-hidden="true"></i></div>
+          <h3>Butuh Bantuan?</h3>
+          <p>
+            Tim kami siap membantu menemukan atau menjelaskan data Banten yang
+            Anda butuhkan untuk riset & analisis.
+          </p>
+          <div class="doc-cta">
+            <a href="mailto:diskominfo@bantenprov.go.id" class="btn-warm">
+              <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+              Hubungi Kami
+            </a>
+          </div>
         </div>
       </div>
     </div>

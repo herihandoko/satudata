@@ -1,4 +1,5 @@
 from datetime import datetime
+import logging
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
@@ -8,10 +9,35 @@ from ckanext.banten_theme.views import (
     dokumentasi as dokumentasi_blueprint,
 )
 
+log = logging.getLogger(__name__)
+
 
 def banten_current_year():
     """Return the current year as a string (e.g. '2026')."""
     return str(datetime.now().year)
+
+
+def banten_recent_datasets(limit=4):
+    """Return the most recently modified public datasets.
+
+    Used by the homepage "Dataset Terbaru" row. Falls back to an empty list
+    on error so the homepage never 500s.
+    """
+    try:
+        result = toolkit.get_action('package_search')(
+            {'ignore_auth': True},
+            {
+                'q': '*:*',
+                'sort': 'metadata_modified desc',
+                'rows': int(limit),
+                'fq': '+state:active',
+                'include_private': False,
+            },
+        )
+        return result.get('results', [])
+    except Exception as e:  # noqa: BLE001
+        log.warning('banten_recent_datasets failed: %s', e)
+        return []
 
 
 class BantenThemePlugin(plugins.SingletonPlugin):
@@ -33,6 +59,7 @@ class BantenThemePlugin(plugins.SingletonPlugin):
     def get_helpers(self):
         return {
             'banten_current_year': banten_current_year,
+            'banten_recent_datasets': banten_recent_datasets,
         }
 
     def get_blueprint(self):

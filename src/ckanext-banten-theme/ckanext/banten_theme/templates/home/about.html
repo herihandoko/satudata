@@ -1,0 +1,293 @@
+{% extends "page.html" %}
+
+{# ==========================================================================
+   Satu Data Banten — Custom modern About page
+   Sections (top → bottom):
+     1. Hero (compact — judul + tagline + breadcrumb)
+     2. Intro card (apa itu SDI Banten + dasar hukum chips)
+     3. Stats compact row (real numbers from CKAN)
+     4. Tujuan & Manfaat (4 feature cards)
+     5. Prinsip Satu Data (4 principle cards)
+     6. Narahubung / Contact card
+     7. CTA panel (Cari Dataset / Dokumentasi API)
+
+   Layout note:
+     We override {% block content %} (mirroring how CKAN's home/index.html
+     bypasses the constrained .row.wrapper) so each <section> can span the
+     full viewport width and host its own dark background.
+   ========================================================================== #}
+
+{% set stats = h.get_site_statistics() %}
+
+{% block subtitle %}{{ _('About') }}{% endblock %}
+
+{% block bodytag %} data-site-root="{{ h.url_for('home.index', locale='default', qualified=true) }}" data-locale-root="{{ h.url_for('home.index', qualified=true) }}" class="about"{% endblock %}
+
+{% block maintag %}{% endblock %}
+{% block toolbar %}{% endblock %}
+
+{% block content %}
+<div class="about-page">
+
+  {# Flash messages still need a container #}
+  <div id="content" class="container about-flash">
+    {{ self.flash() }}
+  </div>
+
+  {# ============================================================
+     1. ABOUT HERO — compact dark navy hero
+     ============================================================ #}
+  <section class="about-hero">
+    <div class="container">
+      <nav class="about-breadcrumb" aria-label="{{ _('Breadcrumb') }}">
+        <a href="{{ h.url_for('home.index') }}">Beranda</a>
+        <span class="sep">/</span>
+        <span class="current">Tentang</span>
+      </nav>
+      <span class="hero-badge">Profil Portal</span>
+      <h1>Tentang <span class="accent">Satu Data Banten</span></h1>
+      <p class="lead">
+        Portal resmi data terbuka Pemerintah Provinsi Banten — wadah satu pintu
+        untuk mengakses, berbagi, dan memanfaatkan data publik secara
+        akuntabel, terstandar, dan terbuka untuk semua.
+      </p>
+    </div>
+  </section>
+
+  {# ============================================================
+     2. INTRO CARD + LEGAL CHIPS + 3. STATS ROW (combined section)
+     ============================================================ #}
+  <section class="section section-soft">
+    <div class="container">
+      <div class="about-intro">
+        <span class="section-eyebrow">Apa itu Satu Data Banten?</span>
+        <h2 class="section-title">Tata kelola data terpadu untuk Provinsi Banten</h2>
+        <p>
+          <strong>SATU DATA BANTEN</strong> adalah inisiatif sekaligus portal
+          resmi Pemerintah Provinsi Banten untuk mewujudkan tata kelola data
+          yang akurat, mutakhir, terpadu, dan dapat dipertanggungjawabkan.
+          Portal ini dikelola oleh
+          <strong>Dinas Komunikasi, Informatika, Statistik, dan Persandian
+          Provinsi Banten</strong> dan menampung dataset dari seluruh
+          Organisasi Perangkat Daerah (OPD) di lingkungan Pemerintah Provinsi
+          Banten.
+        </p>
+        <p>
+          Dataset yang diterbitkan di sini bersifat terbuka, dapat diakses
+          tanpa otentikasi, dan tersedia dalam format standar (CSV, JSON,
+          XLSX, XML) untuk memudahkan integrasi pada aplikasi, riset akademik,
+          jurnalisme data, dan kebutuhan publik lainnya.
+        </p>
+
+        <div class="legal-chips">
+          <span class="chip">
+            <i class="fa fa-scale-balanced" aria-hidden="true"></i>
+            Perpres No. 39 Tahun 2019
+          </span>
+          <span class="chip">
+            <i class="fa fa-scale-balanced" aria-hidden="true"></i>
+            UU No. 14 Tahun 2008 — KIP
+          </span>
+          <span class="chip">
+            <i class="fa fa-shield-halved" aria-hidden="true"></i>
+            Pergub Banten — Tata Kelola Data
+          </span>
+        </div>
+      </div>
+
+      <div class="about-stats-row">
+        <div class="about-stat">
+          <div class="num">{{ stats.dataset_count or 0 }}</div>
+          <div class="lbl">Dataset</div>
+        </div>
+        <div class="about-stat">
+          <div class="num">{{ stats.organization_count or 0 }}</div>
+          <div class="lbl">OPD / Organisasi</div>
+        </div>
+        <div class="about-stat">
+          <div class="num">{{ stats.group_count or 0 }}</div>
+          <div class="lbl">Topik / Grup</div>
+        </div>
+        <div class="about-stat">
+          <div class="num">8</div>
+          <div class="lbl">Kab / Kota</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ============================================================
+     4. TUJUAN & MANFAAT — 4 cards
+     ============================================================ #}
+  <section class="section section-white">
+    <div class="container">
+      <span class="section-eyebrow">Tujuan &amp; Manfaat</span>
+      <h2 class="section-title">Mengapa Satu Data Banten penting?</h2>
+      <p class="section-subtitle">
+        Empat pilar utama yang menjadikan portal ini relevan untuk pemerintah,
+        pelaku usaha, akademisi, dan masyarakat umum.
+      </p>
+
+      <div class="feature-grid feature-grid-4">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa fa-bullseye" aria-hidden="true"></i></div>
+          <h3>Mendukung Kebijakan</h3>
+          <p>
+            Menyediakan data dasar bagi perencanaan, pemantauan, dan evaluasi
+            kebijakan pembangunan Provinsi Banten.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa fa-handshake" aria-hidden="true"></i></div>
+          <h3>Transparansi Publik</h3>
+          <p>
+            Memenuhi mandat keterbukaan informasi publik dan memperkuat
+            kepercayaan masyarakat terhadap pemerintah.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa fa-lightbulb" aria-hidden="true"></i></div>
+          <h3>Inovasi &amp; Riset</h3>
+          <p>
+            Membuka peluang inovasi aplikasi, startup, riset akademik, dan
+            jurnalisme data berbasis bukti.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa fa-link" aria-hidden="true"></i></div>
+          <h3>Interoperabilitas</h3>
+          <p>
+            Mempermudah pertukaran data antar OPD melalui standar metadata dan
+            kode referensi yang seragam.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ============================================================
+     5. PRINSIP SATU DATA INDONESIA
+     ============================================================ #}
+  <section class="section section-soft">
+    <div class="container">
+      <span class="section-eyebrow">Prinsip Satu Data</span>
+      <h2 class="section-title">Empat Prinsip Tata Kelola Data</h2>
+      <p class="section-subtitle">
+        Mengacu pada Peraturan Presiden No. 39 Tahun 2019 tentang Satu Data
+        Indonesia.
+      </p>
+
+      <div class="principles-grid">
+        <div class="principle-card">
+          <div class="principle-num">01</div>
+          <h3>Memenuhi Standar Data</h3>
+          <p>
+            Setiap data memiliki konsep, definisi, klasifikasi, ukuran, dan
+            satuan yang seragam dan baku.
+          </p>
+        </div>
+        <div class="principle-card">
+          <div class="principle-num">02</div>
+          <h3>Memiliki Metadata</h3>
+          <p>
+            Setiap data dilengkapi keterangan struktur, format, sumber,
+            penanggung jawab, dan riwayat perubahannya.
+          </p>
+        </div>
+        <div class="principle-card">
+          <div class="principle-num">03</div>
+          <h3>Memenuhi Interoperabilitas</h3>
+          <p>
+            Data tersedia dalam format yang dapat dibaca dan dipertukarkan
+            antar sistem secara terbuka.
+          </p>
+        </div>
+        <div class="principle-card">
+          <div class="principle-num">04</div>
+          <h3>Menggunakan Kode Referensi</h3>
+          <p>
+            Data merujuk pada kode dan data induk yang seragam (misal kode
+            wilayah BPS) untuk konsistensi nasional.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ============================================================
+     6. NARAHUBUNG / CONTACT CARD
+     ============================================================ #}
+  <section class="section section-white">
+    <div class="container">
+      <span class="section-eyebrow">Narahubung</span>
+      <h2 class="section-title">Hubungi Tim Satu Data Banten</h2>
+      <p class="section-subtitle">
+        Pertanyaan, permintaan dataset, atau kerja sama publikasi dapat
+        disampaikan melalui kanal-kanal berikut.
+      </p>
+
+      <div class="contact-grid">
+        <a href="mailto:diskominfo@bantenprov.go.id" class="contact-card">
+          <div class="contact-icon"><i class="fa-regular fa-envelope" aria-hidden="true"></i></div>
+          <div class="contact-meta">
+            <div class="contact-label">Email</div>
+            <div class="contact-value">diskominfo@bantenprov.go.id</div>
+          </div>
+        </a>
+        <a href="tel:+6282117772226" class="contact-card">
+          <div class="contact-icon"><i class="fa fa-phone" aria-hidden="true"></i></div>
+          <div class="contact-meta">
+            <div class="contact-label">Help Desk</div>
+            <div class="contact-value">0821-1777-2226</div>
+          </div>
+        </a>
+        <a href="https://instagram.com/diskominfospprovbanten" target="_blank" rel="noopener" class="contact-card">
+          <div class="contact-icon"><i class="fa-brands fa-instagram" aria-hidden="true"></i></div>
+          <div class="contact-meta">
+            <div class="contact-label">Instagram</div>
+            <div class="contact-value">@diskominfospprovbanten</div>
+          </div>
+        </a>
+        <div class="contact-card contact-card-static">
+          <div class="contact-icon"><i class="fa fa-location-dot" aria-hidden="true"></i></div>
+          <div class="contact-meta">
+            <div class="contact-label">Alamat Kantor</div>
+            <div class="contact-value">
+              Diskominfo Provinsi Banten<br>
+              KP3B, Curug, Kota Serang, Banten 42171
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ============================================================
+     7. CTA — "Jelajahi Dataset"
+     ============================================================ #}
+  <section class="section section-cta">
+    <div class="container">
+      <div class="cta-card">
+        <div class="cta-text">
+          <h2>Siap menjelajahi data Provinsi Banten?</h2>
+          <p>
+            Mulai dari pencarian dataset, baca dokumentasi API, atau lihat
+            dashboard analitik.
+          </p>
+        </div>
+        <div class="cta-actions">
+          <a href="{{ h.url_for('dataset.search') }}" class="btn btn-primary">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            Cari Dataset
+          </a>
+          <a href="{{ h.url_for('dokumentasi.index') }}" class="btn btn-outline-light">
+            <i class="fa fa-book" aria-hidden="true"></i>
+            Dokumentasi API
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}
