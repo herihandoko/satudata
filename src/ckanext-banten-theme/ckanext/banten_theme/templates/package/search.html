@@ -1,0 +1,39 @@
+{% ckan_extends %}
+
+{% block form %}
+  {% set facets = {
+    'fields': fields_grouped,
+    'search': search_facets,
+    'titles': facet_titles,
+    'translated_fields': translated_fields,
+    'remove_field': remove_field }
+  %}
+  {% set sorting = [
+    ('Relevansi', 'score desc, metadata_modified desc'),
+    ('Nama A-Z', 'title_string asc'),
+    ('Nama Z-A', 'title_string desc'),
+    ('Terakhir Dimodifikasi', 'metadata_modified desc')
+    ]
+  %}
+  {% snippet 'package/snippets/search_form.html',
+    form_id='dataset-search-form',
+    type=dataset_type,
+    query=q,
+    sorting=sorting,
+    sorting_selected=sort_by_selected,
+    count=page.item_count,
+    placeholder='Cari dataset...',
+    facets=facets,
+    show_empty=request.args,
+    error=query_error,
+    fields=fields
+  %}
+{% endblock %}
+
+{% block package_search_results_api_inner %}
+  <small>
+    {% set api_link = h.link_to('API', h.url_for('api.get_api', ver=3)) %}
+    {% set api_doc_link = h.link_to('Dokumentasi API', h.url_for('dokumentasi.index')) %}
+    Anda juga dapat mengakses katalog ini melalui {{ api_link }} (lihat {{ api_doc_link }}).
+  </small>
+{% endblock %}

@@ -1,23 +1,23 @@
 {% extends "page.html" %}
 
-{% block subtitle %}{{ _('Metrix') }}{% endblock %}
+{% block subtitle %}{{ _('Metrik') }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{% link_for _('Metrix'), named_route='metrix.index' %}</li>
+  <li class="active">{% link_for _('Metrik'), named_route='metrix.index' %}</li>
 {% endblock %}
 
 {% block primary %}
 <article class="module">
   <div class="module-content">
     <header class="module-heading">
-      <h1>{{ _('Metrix') }}</h1>
+      <h1>{{ _('Metrik') }}</h1>
       <p class="text-muted">{{ _('Dashboard analitik Satu Data Banten') }}</p>
     </header>
 
     <div class="metrix-iframe-wrapper">
       <iframe
         src="{{ dashboard_url }}"
-        title="{{ _('Metrix Dashboard') }}"
+        title="{{ _('Metrik Dashboard') }}"
         loading="lazy"
         allowfullscreen
         referrerpolicy="no-referrer-when-downgrade"

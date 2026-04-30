@@ -2,11 +2,7 @@
 
 {% block header_logo %}
   <a class="logo navbar-brand" href="{{ h.url_for('home.index') }}" aria-label="{{ g.site_title }}">
-    <img src="{{ h.url_for_static('/banten/images/logo.png') }}" alt="Logo Pemprov Banten" />
-    <span class="site-name">
-      SATU DATA BANTEN
-      <small>Portal Resmi Data Provinsi Banten</small>
-    </span>
+    <img class="logo-satudata" src="{{ h.url_for_static('/banten/images/logo-satu-data.png') }}" alt="Logo Satu Data" />
   </a>
 {% endblock %}
 
@@ -15,8 +11,8 @@
   {% set group_type = h.default_group_type('group') %}
 
   {{ h.build_nav_main(
-    (dataset_type ~ '.search', h.humanize_entity_type('package', dataset_type, 'main nav') or _('Datasets'), ["dataset", "resource"]),
-    ('metrix.index', _('Metrix')),
+    (dataset_type ~ '.search', 'Datasets', ["dataset", "resource"]),
+    ('metrix.index', _('Metrik')),
     ('dokumentasi.index', _('Dokumentasi')),
     (org_type ~ '.index',
       h.humanize_entity_type('organization', org_type, 'main nav') or _('Organizations'), ['organization']),

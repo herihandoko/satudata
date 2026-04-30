@@ -120,6 +120,23 @@ a:hover { color: var(--banten-primary-dark); text-decoration: underline; }
   box-shadow: 0 6px 16px rgba(0,0,0,0.24);
 }
 
+/* Secondary brand image (logo satu data) next to logo pemprov */
+.masthead .navbar-brand img.logo-satudata,
+.masthead .logo img.logo-satudata {
+  height: 46px;
+  width: auto;
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  margin-left: -1px;
+}
+.masthead .navbar-brand:hover img.logo-satudata,
+.masthead .logo:hover img.logo-satudata {
+  transform: none;
+  box-shadow: none;
+}
+
 /* Vertical divider between logo and site name */
 .masthead .site-name {
   display: inline-flex !important;
@@ -164,10 +181,12 @@ a:hover { color: var(--banten-primary-dark); text-decoration: underline; }
   .masthead .site-name { font-size: 18px; padding-left: 12px; }
   .masthead .site-name small { font-size: 9px; letter-spacing: 0.12em; }
   .masthead .navbar-brand img { height: 48px; }
+  .masthead .navbar-brand img.logo-satudata { height: 38px; }
 }
 @media (max-width: 575.98px) {
   .masthead .site-name { font-size: 15px; }
   .masthead .site-name small { display: none !important; }
+  .masthead .navbar-brand img.logo-satudata { height: 30px; }
 }
 
 .masthead .navbar-nav .nav-item .nav-link,

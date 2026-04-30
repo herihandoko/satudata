@@ -1,0 +1,15 @@
+{% ckan_extends %}
+
+{% block organizations_search_form %}
+  {% snippet 'organization/snippets/search_form.html',
+    form_id='organization-search-form',
+    type=group_type,
+    query=q,
+    sorting_selected=sort_by_selected,
+    count=page.item_count,
+    placeholder='Cari organisasi...',
+    show_empty=request.args,
+    no_bottom_border=true if page.items,
+    sorting=[('Nama A-Z', 'title asc'), ('Nama Z-A', 'title desc')]
+  %}
+{% endblock %}

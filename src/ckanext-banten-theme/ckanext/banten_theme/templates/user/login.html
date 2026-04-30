@@ -1,0 +1,15 @@
+{% ckan_extends %}
+
+{% block help_forgotten_inner %}
+  <h2 class="module-heading">Lupa kata sandi Anda?</h2>
+  <div class="module-content">
+    <p>
+      Tidak masalah, gunakan formulir pemulihan kata sandi untuk mengatur ulang akun Anda.
+    </p>
+    <p class="action">
+      {% block help_forgotten_button %}
+        <a class="btn btn-default" href="{{ h.url_for('user.request_reset') }}">Lupa kata sandi Anda?</a>
+      {% endblock %}
+    </p>
+  </div>
+{% endblock %}
