@@ -15,6 +15,14 @@ then
     ckan config-tool $CKAN_INI "api_token.jwt.decode.secret=${JWT_SECRET}"
 fi
 
+# Locale defaults (can be overridden via env)
+CKAN_LOCALE_DEFAULT="${CKAN__LOCALE_DEFAULT:-id}"
+CKAN_LOCALES_OFFERED="${CKAN__LOCALES_OFFERED:-en id}"
+echo "Setting locale: default=$CKAN_LOCALE_DEFAULT offered=$CKAN_LOCALES_OFFERED"
+ckan config-tool $CKAN_INI \
+    "ckan.locale_default = $CKAN_LOCALE_DEFAULT" \
+    "ckan.locales_offered = $CKAN_LOCALES_OFFERED"
+
 # Run the prerun script to init CKAN and create the default admin user
 sudo -u ckan -EH python3 prerun.py
 
