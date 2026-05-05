@@ -236,12 +236,15 @@ body.home .masthead form.d-flex.site-search {
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(20,184,166,0.10) 0%, transparent 60%),
+    var(--hero-bg-image),
     linear-gradient(180deg, var(--banten-navy) 0%, #111d36 100%);
   color: #fff;
   padding: 88px 0 96px;
   text-align: center;
   border-bottom: none;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
   /* Pull stats up by 1px so any sub-pixel anti-aliasing line at
      the hero/stats boundary is hidden — the navy continues seamlessly
      into the top half of .banten-stats. */
@@ -252,8 +255,7 @@ body.home .masthead form.d-flex.site-search {
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(circle at 18% 45%, rgba(20,184,166,0.08) 0%, transparent 38%),
-    radial-gradient(circle at 82% 30%, rgba(6,182,212,0.06) 0%, transparent 38%);
+    radial-gradient(ellipse 44% 58% at 50% 52%, rgba(7, 20, 45, 0.55) 0%, rgba(7, 20, 45, 0.18) 55%, transparent 78%);
   pointer-events: none;
 }
 /* Decorative transparent-white shapes — soft filled circles at ~3-5%
@@ -264,7 +266,7 @@ body.home .masthead form.d-flex.site-search {
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 500' preserveAspectRatio='xMidYMid slice'><g fill='white'><circle cx='90' cy='90' r='70' fill-opacity='0.04'/><circle cx='1090' cy='120' r='110' fill-opacity='0.035'/><circle cx='1110' cy='420' r='160' fill-opacity='0.03'/><circle cx='70' cy='420' r='90' fill-opacity='0.04'/><circle cx='220' cy='340' r='38' fill-opacity='0.05'/><circle cx='960' cy='260' r='28' fill-opacity='0.05'/><circle cx='560' cy='60' r='50' fill-opacity='0.03'/><circle cx='480' cy='430' r='34' fill-opacity='0.04'/><circle cx='260' cy='100' r='2' fill-opacity='0.30'/><circle cx='840' cy='80' r='2.4' fill-opacity='0.28'/><circle cx='620' cy='455' r='2' fill-opacity='0.25'/><circle cx='350' cy='430' r='1.8' fill-opacity='0.28'/><circle cx='150' cy='240' r='2' fill-opacity='0.30'/><circle cx='1060' cy='320' r='2' fill-opacity='0.28'/><circle cx='760' cy='180' r='1.6' fill-opacity='0.25'/><circle cx='420' cy='200' r='1.8' fill-opacity='0.22'/></g></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 500' preserveAspectRatio='xMidYMid slice'><g fill='white'><circle cx='90' cy='90' r='70' fill-opacity='0.02'/><circle cx='1090' cy='120' r='110' fill-opacity='0.018'/><circle cx='1110' cy='420' r='160' fill-opacity='0.016'/><circle cx='70' cy='420' r='90' fill-opacity='0.02'/><circle cx='220' cy='340' r='38' fill-opacity='0.024'/><circle cx='960' cy='260' r='28' fill-opacity='0.024'/><circle cx='560' cy='60' r='50' fill-opacity='0.014'/><circle cx='480' cy='430' r='34' fill-opacity='0.018'/><circle cx='260' cy='100' r='2' fill-opacity='0.16'/><circle cx='840' cy='80' r='2.4' fill-opacity='0.14'/><circle cx='620' cy='455' r='2' fill-opacity='0.12'/><circle cx='350' cy='430' r='1.8' fill-opacity='0.14'/><circle cx='150' cy='240' r='2' fill-opacity='0.16'/><circle cx='1060' cy='320' r='2' fill-opacity='0.14'/><circle cx='760' cy='180' r='1.6' fill-opacity='0.12'/><circle cx='420' cy='200' r='1.8' fill-opacity='0.10'/></g></svg>");
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
@@ -301,21 +303,21 @@ body.home .masthead form.d-flex.site-search {
   letter-spacing: -0.02em;
   line-height: 1.1;
   margin-bottom: 18px;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(0, 0, 0, 0.30);
 }
 .banten-hero h1 .accent {
-  color: var(--banten-teal);
-  background: linear-gradient(90deg, var(--banten-teal) 0%, var(--banten-cyan) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #fff;
+  background: none;
+  -webkit-text-fill-color: #fff;
 }
 
 .banten-hero p.lead {
-  color: rgba(255,255,255,0.72);
+  color: rgba(255,255,255,0.92);
   font-size: 17px;
   max-width: 640px;
   margin: 0 auto 36px;
   line-height: 1.6;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
 }
 
 .banten-hero .search-form {
