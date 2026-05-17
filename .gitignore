@@ -64,3 +64,21 @@ npm-debug.log*
 tmp/
 temp/
 favicon_io/
+
+# ----------------------------------------------------------------------
+# Confidential / personal artifacts — never commit, distribution is RESTRICTED.
+# Source files (raw banners, WhatsApp drops, raw pentest PDF) are kept locally
+# only. Production-ready copies live under the theme's public/ directory.
+# ----------------------------------------------------------------------
+# Pentest deliverables (TLP:AMBER+STRICT)
+Laporan_Pentest_*.pdf
+reports/
+
+# Programmer work paper (internal admin)
+/KERTAS*.pdf
+
+# Raw source assets dropped at repo root (deployed copies live inside theme)
+/BannerSatuData*.png
+/BannerSatuData*.jpg
+/BannerSatuData*.jpeg
+/WhatsApp Image*

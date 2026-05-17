@@ -8,6 +8,11 @@ from ckanext.banten_theme.views import (
     metrix as metrix_blueprint,
     dokumentasi as dokumentasi_blueprint,
 )
+from ckanext.banten_theme import rate_limiter
+from ckanext.banten_theme.validators import (
+    safe_remote_url,
+    assert_safe_url_or_raise,
+)
 
 log = logging.getLogger(__name__)
 
@@ -50,6 +55,8 @@ class BantenThemePlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IBlueprint)
+    plugins.implements(plugins.IValidators)
+    plugins.implements(plugins.IResourceController, inherit=True)
 
     def update_config(self, config_):
         toolkit.add_template_directory(config_, 'templates')
@@ -63,4 +70,19 @@ class BantenThemePlugin(plugins.SingletonPlugin):
         }
 
     def get_blueprint(self):
-        return [metrix_blueprint, dokumentasi_blueprint]
+        return [
+            metrix_blueprint,
+            dokumentasi_blueprint,
+            rate_limiter.get_blueprint(),
+        ]
+
+    def get_validators(self):
+        return {"banten_safe_remote_url": safe_remote_url}
+
+    def before_resource_create(self, context, resource):
+        assert_safe_url_or_raise(resource.get('url'))
+
+    def before_resource_update(self, context, current, resource):
+        new_url = resource.get('url')
+        if new_url and new_url != (current or {}).get('url'):
+            assert_safe_url_or_raise(new_url)
