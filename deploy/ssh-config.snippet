@@ -1,0 +1,18 @@
+# Salin blok ini ke ~/.ssh/config (Mac/Linux)
+# Satu Data Banten — Development + Production
+
+# Development / staging (satudata.bantendev.id)
+Host vm-banten ssh-banten-dev
+    HostName 10.255.100.246
+    User statistik
+    IdentityFile ~/.ssh/vm_access
+    IdentitiesOnly yes
+    ServerAliveInterval 30
+
+# Production (data.bantenprov.go.id)
+Host ssh-banten-prod
+    HostName 10.249.100.25
+    User statistik
+    IdentityFile ~/.ssh/vm_access
+    IdentitiesOnly yes
+    ServerAliveInterval 30

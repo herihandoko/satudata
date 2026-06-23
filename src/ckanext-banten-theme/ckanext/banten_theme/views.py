@@ -1,6 +1,8 @@
 from flask import Blueprint
 import ckan.plugins.toolkit as toolkit
 
+from ckanext.banten_theme.metabase_embed import build_metrix_dashboard_url
+
 
 metrix = Blueprint('metrix', __name__)
 dokumentasi = Blueprint('dokumentasi', __name__)
@@ -8,15 +10,13 @@ dokumentasi = Blueprint('dokumentasi', __name__)
 
 @metrix.route('/metrix')
 def index():
-    """Metrix dashboard — embedded Metabase public dashboard.
+    """Metrix dashboard — Metabase signed embed (or public fallback).
 
-    The iframe src points to a path served by the host nginx as a reverse
-    proxy to the Metabase server (so the embedded content is delivered via
-    HTTPS and is same-origin, avoiding mixed-content blocks).
+    iframe src is a same-origin path (/metrix-dashboard/...) proxied by nginx
+    to Metabase so browsers never call the private IP directly.
     """
     return toolkit.render('metrix.html', extra_vars={
-        'dashboard_url': '/metrix-dashboard/public/dashboard/'
-                         '074806cf-11d0-481b-8714-c78d9856621d',
+        'dashboard_url': build_metrix_dashboard_url(),
         'page_title': 'Metrix',
     })
 

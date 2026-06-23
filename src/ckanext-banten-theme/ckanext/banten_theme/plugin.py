@@ -16,10 +16,28 @@ from ckanext.banten_theme.validators import (
 
 log = logging.getLogger(__name__)
 
+BANTEN_PORTAL_VERSION = '1.0.0'
+
+
+def banten_portal_version():
+    """Portal release version shown in the site footer."""
+    return BANTEN_PORTAL_VERSION
+
 
 def banten_current_year():
     """Return the current year as a string (e.g. '2026')."""
     return str(datetime.now().year)
+
+
+def banten_site_url():
+    """Public CKAN site URL from ckan.site_url (matches CKAN_SITE_URL in .env)."""
+    return (toolkit.config.get('ckan.site_url') or '').rstrip('/')
+
+
+def banten_api_action_url(action=''):
+    """Base URL for CKAN Action API v3, e.g. .../api/3/action/package_search."""
+    base = f'{banten_site_url()}/api/3/action'
+    return f'{base}/{action}' if action else f'{base}/{{action}}'
 
 
 def banten_recent_datasets(limit=4):
@@ -66,7 +84,10 @@ class BantenThemePlugin(plugins.SingletonPlugin):
     def get_helpers(self):
         return {
             'banten_current_year': banten_current_year,
+            'banten_portal_version': banten_portal_version,
             'banten_recent_datasets': banten_recent_datasets,
+            'banten_site_url': banten_site_url,
+            'banten_api_action_url': banten_api_action_url,
         }
 
     def get_blueprint(self):

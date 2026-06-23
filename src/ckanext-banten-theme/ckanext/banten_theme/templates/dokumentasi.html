@@ -86,7 +86,7 @@
             <span>BASE URL</span>
             <span class="docs-method">GET</span>
           </div>
-          <code class="docs-endpoint-url">https://satudata.bantendev.id/api/3/action/{action}</code>
+          <code class="docs-endpoint-url">{{ h.banten_api_action_url() }}</code>
         </div>
 
         <div class="docs-endpoint-list mt-3">
@@ -110,7 +110,7 @@
         <div class="row g-3">
           <div class="col-md-6">
             <label class="docs-code-label">{{ _('REQUEST') }}</label>
-<pre class="docs-code"><code>curl 'https://satudata.bantendev.id/api/3/action/package_search?q=populasi&amp;rows=1'</code></pre>
+<pre class="docs-code"><code>curl '{{ h.banten_api_action_url('package_search') }}?q=populasi&amp;rows=1'</code></pre>
           </div>
           <div class="col-md-6">
             <label class="docs-code-label">{{ _('RESPONSE (cuplikan)') }}</label>
@@ -131,11 +131,11 @@
         </div>
 
         <h4 class="docs-subhead mt-4">{{ _('Contoh: detail dataset') }}</h4>
-<pre class="docs-code"><code>curl 'https://satudata.bantendev.id/api/3/action/package_show?id=&lt;dataset_name_atau_id&gt;'</code></pre>
+<pre class="docs-code"><code>curl '{{ h.banten_api_action_url('package_show') }}?id=&lt;dataset_name_atau_id&gt;'</code></pre>
 
         <h4 class="docs-subhead mt-4">{{ _('Autentikasi (opsional)') }}</h4>
         <p>{{ _('Kirim API Token via header HTTP berikut hanya jika Anda perlu mengakses data privat atau melakukan write action:') }}</p>
-<pre class="docs-code"><code>curl 'https://satudata.bantendev.id/api/3/action/package_show?id=...' \
+<pre class="docs-code"><code>curl '{{ h.banten_api_action_url('package_show') }}?id=...' \
   -H 'Authorization: &lt;CKAN_API_TOKEN&gt;'</code></pre>
 
         <div class="docs-tip mt-3">

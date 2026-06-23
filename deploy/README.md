@@ -1,6 +1,20 @@
 # Satudata Deployment Guide
 
-Production deployment guide untuk **satudata.bantendev.id**.
+Panduan deploy portal Satu Data Banten (CKAN 2.11 + Docker).
+
+## Lingkungan (Development vs Production)
+
+| | Development | Production |
+|---|-------------|------------|
+| **SSH** | `ssh ssh-banten-dev` (alias `vm-banten`) | `ssh ssh-banten-prod` |
+| **IP** | `10.255.100.246` | `10.249.100.25` |
+| **Domain** | https://satudata.bantendev.id | https://data.bantenprov.go.id |
+
+Detail SSH, rsync, dan perbedaan `.env`: **[deploy/environments.md](environments.md)**  
+Snippet `~/.ssh/config`: **[deploy/ssh-config.snippet](ssh-config.snippet)**  
+Sync dari laptop: `./deploy/sync.sh dev` atau `./deploy/sync.sh prod`
+
+---
 
 ## Arsitektur
 

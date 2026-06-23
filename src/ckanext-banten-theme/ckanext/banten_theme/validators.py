@@ -49,6 +49,23 @@ _PRIVATE_NETS_V6 = [
     )
 ]
 
+# Hostnames always rejected even when DNS is unavailable on the server.
+_BLOCKED_HOSTNAMES = frozenset(
+    {
+        "localhost",
+        "metadata.google.internal",
+        "metadata.google",
+    }
+)
+_BLOCKED_HOSTNAME_SUFFIXES = (".local", ".internal", ".localhost")
+
+
+def _is_blocked_hostname(host: str) -> bool:
+    lower = host.lower().rstrip(".")
+    if lower in _BLOCKED_HOSTNAMES:
+        return True
+    return any(lower.endswith(suffix) for suffix in _BLOCKED_HOSTNAME_SUFFIXES)
+
 
 def _is_private_ip(addr_str: str) -> bool:
     try:
@@ -60,10 +77,15 @@ def _is_private_ip(addr_str: str) -> bool:
 
 
 def _resolve_all(host: str):
+    """Resolve host to IP strings. Returns None when lookup fails or times out."""
+    old_timeout = socket.getdefaulttimeout()
     try:
-        infos = socket.getaddrinfo(host, None)
-    except (socket.gaierror, socket.herror, UnicodeError):
+        socket.setdefaulttimeout(5)
+        infos = socket.getaddrinfo(host, None, type=socket.SOCK_STREAM)
+    except (socket.gaierror, socket.herror, UnicodeError, socket.timeout, OSError):
         return None
+    finally:
+        socket.setdefaulttimeout(old_timeout)
     return [info[4][0] for info in infos]
 
 
@@ -89,9 +111,20 @@ def _check_url(value: str) -> None:
             "URL menunjuk ke alamat private/internal yang tidak diizinkan"
         )
 
+    if _is_blocked_hostname(host):
+        raise toolkit.Invalid(
+            "URL menunjuk ke host internal yang tidak diizinkan"
+        )
+
     addrs = _resolve_all(host)
     if addrs is None:
-        raise toolkit.Invalid("Host URL tidak dapat di-resolve")
+        # Prod VM may have broken outbound DNS; literal private IPs are still
+        # blocked above. Log and allow public hostnames until DNS is restored.
+        log.warning(
+            "DNS resolution failed for %r; allowing URL after hostname checks only",
+            host,
+        )
+        return
 
     for a in addrs:
         if _is_private_ip(a):

@@ -266,7 +266,7 @@
             diakses tanpa otentikasi.
           </p>
 <pre><span class="tok-cmd">curl</span> <span class="tok-flag">--compressed</span> \
-  https://satudata.bantendev.id/api/3/action/package_list</pre>
+  {{ h.banten_api_action_url('package_list') }}</pre>
           <div class="doc-cta">
             <a href="{{ h.url_for('dokumentasi.index') }}" style="color: var(--banten-teal-2); font-weight: 600; text-decoration: none;">
               Baca dokumentasi <i class="fa fa-arrow-right" style="margin-left:4px;"></i>

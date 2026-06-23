@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='ckanext-banten-theme',
-    version='0.1.0',
+    version='1.0.0',
     description='SATU DATA Banten — gov-formal CKAN theme for the Banten provincial open-data portal',
     author='Pemprov Banten',
     license='AGPL',

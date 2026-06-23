@@ -73,6 +73,8 @@ favicon_io/
 # Pentest deliverables (TLP:AMBER+STRICT)
 Laporan_Pentest_*.pdf
 reports/
+docs/
+tasks/
 
 # Programmer work paper (internal admin)
 /KERTAS*.pdf
